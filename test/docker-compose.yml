@@ -1,0 +1,9 @@
+version: '3.4'
+services:
+  
+  tx-generator-dosing-test:
+    build:
+      context: test
+    command: []
+    depends_on:
+      - tx-generator-dosing

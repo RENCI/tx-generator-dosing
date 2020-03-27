@@ -1,0 +1,221 @@
+openapi: 3.0.0
+info:
+  description: 
+    This is a dosing data generator plugin to generate dosing data that can be used by guidance plugins.
+  version: "1.0.0"
+  title: Dosing data generator plugin
+tags:
+  - name: dosing
+    description: drug dosing data
+  - name: concentration graph
+    description: graph of drug concentration over time
+paths:
+  /config:
+    get:
+      summary: returns the config for the plugin
+      operationId: api.get_config
+      responses:
+        '200':
+          description: config
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Config'
+              example:
+                {
+                  "title": "Dosing data generator",
+                  "piid": "tx-generator-dosing",
+                  "pluginType": "c",
+                  "pluginParameters": {
+                     "legalParameters": [ {
+                                            "value_type": "number",
+                                            "name": "dose"
+                                          },
+                                          {
+                                            "value_type": "number",
+                                            "name": "tau"
+                                          },
+                                          {
+                                            "value_type": "number",
+                                            "name": "cr_cl"
+                                          },
+                                          {
+                                            "value_type": "number",
+                                            "name": "t_infusion"
+                                          },
+                                          {
+                                            "value_type": "number",
+                                            "name": "vd"
+                                          },
+                                          {
+                                            "value_type": "integer",
+                                            "name": "num_cycles"
+                                          } ]
+                  }
+                }
+        '400':
+          description: "Bad Request"
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema: {}
+  /concentration_data:
+    post:
+      summary: return blood concentration time series data given drug dose, dosing internal (tau), creatinine clearance, and other optional parameters such as volume distribution, infusion time, and number of cycles
+      operationId: api.get_concentration_data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConcentrationInputs'
+            example:
+              {
+                "dose": 180,
+                "tau": 12,
+                "cr_cl": 50,
+                "t_infusion": 0.5,
+                "vd": 22.59,
+                "num_cycles": 4
+              }
+      responses:
+        '200':
+          description: "Drug blood concentration data matching query"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Output'
+              example: [
+              {
+                'x': 0,
+                'y': 0
+              },
+              {
+                'x': 1,
+                'y': 8
+              },
+              {
+                'x': 2,
+                'y': 5
+              } ]
+        '400':
+          description: "Bad Request"
+          content:
+            application/json:
+              schema: {}
+        '500':
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema: {}
+components:
+  schemas:
+    Config:
+      type: object
+      required:
+        - piid
+        - pluginType
+        - pluginParameters
+      properties:
+        title:
+          type: string
+          description: "Meaningful name for this plugin"
+          example: "Dosing data generator"
+        piid:
+          type: string
+          description: "A string, unique to this deployment, used to identify this plugin in realtime"
+          example: "tx-generator-dosing"
+        pluginType:
+          type: string
+          enum: [e,g,m,f]
+          description: "A value from the enumeration below identifying the plugin type. 'g'=Guidance, 'c'=convenience, 'm'=mapper, 'f'=FHIR data server. In the clinical arena, only one FHIR server and only one mapper is allowed, and this can be indicated either with the defaults, or by only installing one mapper and one FHIR plugin type."
+          example: "c"
+        pluginTypeTitle:
+          type: string
+          description: "A human-readable value for the type. 'g'=Guidance, 'c'=Convenience, 'm'=Mapping, 'f'=FHIR"
+        pluginDependencies:
+          type: array
+          items:
+            type: string
+            description: "An array of container names upon which the plugin in question depends. For example, 'txscience/pds-fhir-example:0.2.0'. Mapper plugins must indicate a dependency on one or more FHIR plugins, but dependencies are discouraged otherwise in order to maintain the decoupling and reuse of plugins. Every plugin of type 'm' must have at least one 'f' plugin listed in pluginDependencies, otherwise return 500."
+        pluginParameters:
+          description: "typed values for input parameters that might be required by the plugin"
+          type: object
+          required:
+            - legalParameters
+          properties:
+            legalParameters:
+              type: array
+              description: "Supported sets of input parameters for the plugin"
+              items:
+                $ref: '#/components/schemas/LegalParameter'
+
+    LegalParameter:
+      type: object
+      required:
+        - value_type
+        - name
+      properties:
+        value_type:
+          type: string
+          description: "type of the value for the parameter"
+          example: "number"
+        name:
+          type: string
+          description: "name of the parameter"
+          example: "dose"
+
+    ConcentrationInputs:
+      type: object
+      required:
+        - dose
+        - tau
+        - cr_cl
+      properties:
+        dose:
+          type: number
+          description: "drug dose in mg unit"
+          example: "180"
+        tau:
+          type: number
+          description: "drug dosing interval in hour unit"
+          example: "12"
+        cr_cl:
+          type: number
+          description: "Creatinine Clearance in mL/min unit"
+          example: "50"
+        t_infusion:
+          type: number
+          description: "infusion time in hour unit"
+          default: "0.5"
+          example: "1"
+        vd:
+          type: number
+          description: "volume distribution in L unit"
+          default: "22.59"
+          example: "23.28"
+        num_cycles:
+          type: integer
+          description: "number of cycles for concentration graph"
+          default: "4"
+          example: "10"
+
+    Output:
+      type: object
+      required:
+        - x
+        - y
+      properties:
+        x:
+          type: number
+          description: "horizontal x axis data representing time in hours"
+          example: "2"
+        y:
+          type: number
+          description: "vertical y axis data representing blood conentration"
+          example: "9.2"
