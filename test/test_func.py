@@ -55,9 +55,9 @@ generator_output = {
         "crcl": 50,
         "dose": 180,
         "group": "guidance",
-        "peak": 8.962962101397038,
+        "peak": 5.988275788802068,
         "tau": 12,
-        "trough": 1.4153130792292603
+        "trough": 2.2859999017896673
     },
     'data': [{
         "x": 0,
