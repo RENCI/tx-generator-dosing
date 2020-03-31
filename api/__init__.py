@@ -55,25 +55,25 @@ def get_concentration_data(body):
     peak0 = dose / vd
     peak = 0
 
-    output_data = {
-        'parameters': {
-            'dose': dose,
-            'crcl': crcl,
-            'tau': tau,
-            'peak': peak_end,
-            'trough': trough_end,
+    data = [
+        {
+            'y': peak_end,
+            'type': 'peak',
             'group': group
         },
-        'data': [{
+        {
+            'y': trough_end,
+            'type': 'trough',
+            'group': group
+        },
+        {
             'x': 0,
             'y': 0,
             'group': group
         }]
-    }
 
     x = t_infusion
     max_x = tau * n
-    data = output_data['data']
     while x < max_x:
         m = (x - t_infusion) % tau
         if m == 0:
@@ -85,6 +85,18 @@ def get_concentration_data(body):
             for i in range(1, steps+1):
                 y = (y + k1) * k2
             peak = y
+            data.append({
+                'x': x,
+                'y': peak,
+                'type': 'peak',
+                'group': group
+            })
+            data.append({
+                'x': x - t_infusion,
+                'y': data[len(data)-1]['y'],
+                'type': 'trough',
+                'group': group
+            })
 
         y = peak * math.exp(-kel * m)
 
@@ -95,4 +107,4 @@ def get_concentration_data(body):
         })
         x += t_infusion
 
-    return output_data
+    return data

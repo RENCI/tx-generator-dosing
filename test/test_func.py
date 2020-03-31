@@ -50,56 +50,106 @@ generator_input = {
     "num_cycles": 4
 }
 
-generator_output = {
-    "parameters": {
-        "crcl": 50,
-        "dose": 180,
-        "group": "guidance",
-        "peak": 5.988275788802068,
-        "tau": 12,
-        "trough": 2.2859999017896673
-    },
-    'data': [{
-        "x": 0,
-        "y": 0,
-        "group": "guidance"
-        },
-        {
-        "x": 6,
-        "y": 5.115358321074912,
-        "group": "guidance"
-        },
-        {
-        "x": 12,
-        "y": 1.9527672124692657,
-        "group": "guidance"
-        },
-        {
-        "x": 18,
-        "y": 5.860819253965945,
-        "group": "guidance"
-        },
-        {
-        "x": 24,
-        "y": 2.2373438885407997,
-        "group": "guidance"
-        },
-        {
-        "x": 30,
-        "y": 5.969455241434752,
-        "group": "guidance"
-        },
-        {
-        "x": 36,
-        "y": 2.2788152344579182,
-        "group": "guidance"
-        },
-        {
-        "x": 42,
-        "y": 5.985286758892745,
-        "group": "guidance"
-    }]
-}
+generator_output = [
+  {
+    "group": "guidance",
+    "type": "peak",
+    "y": 5.988275788802068
+  },
+  {
+    "group": "guidance",
+    "type": "trough",
+    "y": 2.2859999017896673
+  },
+  {
+    "group": "guidance",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "group": "guidance",
+    "type": "peak",
+    "x": 6,
+    "y": 5.115358321074912
+  },
+  {
+    "group": "guidance",
+    "type": "trough",
+    "x": 0,
+    "y": 5.115358321074912
+  },
+  {
+    "group": "guidance",
+    "x": 6,
+    "y": 5.115358321074912
+  },
+  {
+    "group": "guidance",
+    "x": 12,
+    "y": 1.9527672124692657
+  },
+  {
+    "group": "guidance",
+    "type": "peak",
+    "x": 18,
+    "y": 5.860819253965945
+  },
+  {
+    "group": "guidance",
+    "type": "trough",
+    "x": 12,
+    "y": 5.860819253965945
+  },
+  {
+    "group": "guidance",
+    "x": 18,
+    "y": 5.860819253965945
+  },
+  {
+    "group": "guidance",
+    "x": 24,
+    "y": 2.2373438885407997
+  },
+  {
+    "group": "guidance",
+    "type": "peak",
+    "x": 30,
+    "y": 5.969455241434752
+  },
+  {
+    "group": "guidance",
+    "type": "trough",
+    "x": 24,
+    "y": 5.969455241434752
+  },
+  {
+    "group": "guidance",
+    "x": 30,
+    "y": 5.969455241434752
+  },
+  {
+    "group": "guidance",
+    "x": 36,
+    "y": 2.2788152344579182
+  },
+  {
+    "group": "guidance",
+    "type": "peak",
+    "x": 42,
+    "y": 5.985286758892745
+  },
+  {
+    "group": "guidance",
+    "type": "trough",
+    "x": 36,
+    "y": 5.985286758892745
+  },
+  {
+    "group": "guidance",
+    "x": 42,
+    "y": 5.985286758892745
+  }
+]
 
 
 def test_concentration_data():

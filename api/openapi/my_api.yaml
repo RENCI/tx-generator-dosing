@@ -87,17 +87,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ConcentrationOutputs'
-              example: {
-              'parameters': {
-                'dose': 180,
-                'crcl': 50,
-                'tau': 12,
-                'peak': 8,
-                'trough': 1.3,
-                'group': 'guidance'
-              },
-              'data': [{
+                type: array
+                items:
+                  $ref: '#/components/schemas/Output'
+              example: [
+              {
                   'x': 0,
                   'y': 0,
                   'group': 'guidance'
@@ -111,7 +105,18 @@ paths:
                   'x': 2,
                   'y': 5,
                   'group': 'guidance'
-              } ] }
+              },
+              {
+                'x': 4,
+                'y': 10,
+                'type': 'peak',
+                'group': 'guidance'
+              },
+              {
+                'y': 10,
+                'type': 'peak',
+                'group': 'guidance'
+              }]
         '400':
           description: "Bad Request"
           content:
@@ -213,42 +218,9 @@ components:
           description: "number of cycles for concentration graph"
           default: "4"
           example: "10"
-    ConcentrationOutputs:
-      type: object
-      required:
-        - data
-      properties:
-        parameters:
-          type: object
-          properties:
-            dose:
-              type: number
-              description: "dosage in mg unit"
-              example: "160"
-            crcl:
-              type: number
-              description: "creatinine clearance"
-              example: "50"
-            tau:
-              type: number
-              description: "drug dosing interval in hour unit"
-              example: "12"
-            peak:
-              type: number
-              description: "highest drug concentration level for a patient-specific dosing regimen"
-              example: "8"
-            trough:
-              type: number
-              description: "lowest drug concentration level for a patient-specific dosing regimen"
-              example: "1.3"
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Output'
     Output:
       type: object
       required:
-        - x
         - y
       properties:
         x:
@@ -264,3 +236,7 @@ components:
           description: "dosing concentration data group to distinguish between guidance-generated and user-adjusted dosing data"
           example: "guidance"
           default: "guidance"
+        type:
+          type: string
+          description: "type of the data, such as peak or trough"
+          example: "peak"
