@@ -37,7 +37,7 @@ paths:
                                           },
                                           {
                                             "value_type": "number",
-                                            "name": "cr_cl"
+                                            "name": "crcl"
                                           },
                                           {
                                             "value_type": "number",
@@ -76,7 +76,7 @@ paths:
               {
                 "dose": 180,
                 "tau": 12,
-                "cr_cl": 50,
+                "crcl": 50,
                 "t_infusion": 0.5,
                 "vd": 22.59,
                 "num_cycles": 4
@@ -87,22 +87,31 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Output'
-              example: [
-              {
-                'x': 0,
-                'y': 0
+                $ref: '#/components/schemas/ConcentrationOutputs'
+              example: {
+              'parameters': {
+                'dose': 180,
+                'crcl': 50,
+                'tau': 12,
+                'peak': 8,
+                'trough': 1.3,
+                'group': 'guidance'
+              },
+              'data': [{
+                  'x': 0,
+                  'y': 0,
+                  'group': 'guidance'
               },
               {
-                'x': 1,
-                'y': 8
+                  'x': 1,
+                  'y': 8,
+                  'group': 'guidance'
               },
               {
-                'x': 2,
-                'y': 5
-              } ]
+                  'x': 2,
+                  'y': 5,
+                  'group': 'guidance'
+              } ] }
         '400':
           description: "Bad Request"
           content:
@@ -175,7 +184,7 @@ components:
       required:
         - dose
         - tau
-        - cr_cl
+        - crcl
       properties:
         dose:
           type: number
@@ -185,7 +194,7 @@ components:
           type: number
           description: "drug dosing interval in hour unit"
           example: "12"
-        cr_cl:
+        crcl:
           type: number
           description: "Creatinine Clearance in mL/min unit"
           example: "50"
@@ -204,7 +213,38 @@ components:
           description: "number of cycles for concentration graph"
           default: "4"
           example: "10"
-
+    ConcentrationOutputs:
+      type: object
+      required:
+        - data
+      properties:
+        parameters:
+          type: object
+          properties:
+            dose:
+              type: number
+              description: "dosage in mg unit"
+              example: "160"
+            crcl:
+              type: number
+              description: "creatinine clearance"
+              example: "50"
+            tau:
+              type: number
+              description: "drug dosing interval in hour unit"
+              example: "12"
+            peak:
+              type: number
+              description: "highest drug concentration level for a patient-specific dosing regimen"
+              example: "8"
+            trough:
+              type: number
+              description: "lowest drug concentration level for a patient-specific dosing regimen"
+              example: "1.3"
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Output'
     Output:
       type: object
       required:
@@ -217,5 +257,10 @@ components:
           example: "2"
         y:
           type: number
-          description: "vertical y axis data representing blood conentration"
+          description: "vertical y axis data representing blood concentration"
           example: "9.2"
+        group:
+          type: string
+          description: "dosing concentration data group to distinguish between guidance-generated and user-adjusted dosing data"
+          example: "guidance"
+          default: "guidance"

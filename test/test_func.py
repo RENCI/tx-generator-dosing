@@ -24,7 +24,7 @@ config = {
         },
         {
           "value_type": "number",
-          "name": "cr_cl"
+          "name": "crcl"
         },
         {
           "value_type": "number",
@@ -44,46 +44,62 @@ config = {
 generator_input = {
     "dose": 180,
     "tau": 12,
-    "cr_cl": 50,
+    "crcl": 50,
     "t_infusion": 6,
     "vd": 22.59,
     "num_cycles": 4
 }
 
-generator_output = [
-  {
-    "x": 0,
-    "y": 0
-  },
-  {
-    "x": 6,
-    "y": 5.115358321074912
-  },
-  {
-    "x": 12,
-    "y": 1.9527672124692657
-  },
-  {
-    "x": 18,
-    "y": 5.860819253965945
-  },
-  {
-    "x": 24,
-    "y": 2.2373438885407997
-  },
-  {
-    "x": 30,
-    "y": 5.969455241434752
-  },
-  {
-    "x": 36,
-    "y": 2.2788152344579182
-  },
-  {
-    "x": 42,
-    "y": 5.985286758892745
-  }
-]
+generator_output = {
+    "parameters": {
+        "crcl": 50,
+        "dose": 180,
+        "group": "guidance",
+        "peak": 8.962962101397038,
+        "tau": 12,
+        "trough": 1.4153130792292603
+    },
+    'data': [{
+        "x": 0,
+        "y": 0,
+        "group": "guidance"
+        },
+        {
+        "x": 6,
+        "y": 5.115358321074912,
+        "group": "guidance"
+        },
+        {
+        "x": 12,
+        "y": 1.9527672124692657,
+        "group": "guidance"
+        },
+        {
+        "x": 18,
+        "y": 5.860819253965945,
+        "group": "guidance"
+        },
+        {
+        "x": 24,
+        "y": 2.2373438885407997,
+        "group": "guidance"
+        },
+        {
+        "x": 30,
+        "y": 5.969455241434752,
+        "group": "guidance"
+        },
+        {
+        "x": 36,
+        "y": 2.2788152344579182,
+        "group": "guidance"
+        },
+        {
+        "x": 42,
+        "y": 5.985286758892745,
+        "group": "guidance"
+    }]
+}
 
 
 def test_concentration_data():
