@@ -74,7 +74,7 @@ def get_concentration_data(body):
 
     x = t_infusion
     max_x = tau * n
-    while x < max_x:
+    while x <= max_x:
         m = (x - t_infusion) % tau
         if m == 0:
             # Simulate infusion
@@ -85,26 +85,20 @@ def get_concentration_data(body):
             for i in range(1, steps+1):
                 y = (y + k1) * k2
             peak = y
-            data.append({
-                'x': x,
-                'y': peak,
-                'type': 'peak',
-                'group': group
-            })
-            data.append({
-                'x': x - t_infusion,
-                'y': data[len(data)-1]['y'],
-                'type': 'trough',
-                'group': group
-            })
 
         y = peak * math.exp(-kel * m)
 
-        data.append({
+        datum = {
             'x': x,
             'y': y,
             'group': group
-        })
+        }
+        if m == 0:
+            datum['type'] = "peak"
+        elif m == tau - t_infusion:
+            datum['type'] = "trough"
+
+        data.append(datum)
         x += t_infusion
 
     return data

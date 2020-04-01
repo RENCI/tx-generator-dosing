@@ -75,16 +75,6 @@ generator_output = [
   {
     "group": "guidance",
     "type": "trough",
-    "x": 0,
-    "y": 5.115358321074912
-  },
-  {
-    "group": "guidance",
-    "x": 6,
-    "y": 5.115358321074912
-  },
-  {
-    "group": "guidance",
     "x": 12,
     "y": 1.9527672124692657
   },
@@ -97,16 +87,6 @@ generator_output = [
   {
     "group": "guidance",
     "type": "trough",
-    "x": 12,
-    "y": 5.860819253965945
-  },
-  {
-    "group": "guidance",
-    "x": 18,
-    "y": 5.860819253965945
-  },
-  {
-    "group": "guidance",
     "x": 24,
     "y": 2.2373438885407997
   },
@@ -119,16 +99,6 @@ generator_output = [
   {
     "group": "guidance",
     "type": "trough",
-    "x": 24,
-    "y": 5.969455241434752
-  },
-  {
-    "group": "guidance",
-    "x": 30,
-    "y": 5.969455241434752
-  },
-  {
-    "group": "guidance",
     "x": 36,
     "y": 2.2788152344579182
   },
@@ -141,13 +111,8 @@ generator_output = [
   {
     "group": "guidance",
     "type": "trough",
-    "x": 36,
-    "y": 5.985286758892745
-  },
-  {
-    "group": "guidance",
-    "x": 42,
-    "y": 5.985286758892745
+    "x": 48,
+    "y": 2.2848588517912796
   }
 ]
 
